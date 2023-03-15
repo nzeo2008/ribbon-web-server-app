@@ -77,11 +77,16 @@ public class PostService {
         return postsResponse;
     }
 
-    public PostEntity getPostById(Long postId,
-                                  Principal principal) {
+    public PostEntity getPostByIdWithAuth(Long postId,
+                                          Principal principal) {
         UserEntity userEntity = getUserByPrincipal(principal);
         return postsRepository.findPostsByIdAndUserEntity(postId, userEntity)
                 .orElseThrow(() -> new PostNotFoundException("Пост не может быть найден для: " + userEntity.getEmail()));
+    }
+
+    public PostEntity getPostById(Long postId) {
+        return postsRepository.findPostEntityById(postId)
+                .orElseThrow(() -> new PostNotFoundException("Пост c id: " + postId + " не может быть найден"));
     }
 
     public List<PostEntity> getAllPostForUser(Principal principal) {
@@ -113,7 +118,7 @@ public class PostService {
 
     public void deletePost(Long postId,
                            Principal principal) {
-        PostEntity postEntity = getPostById(postId, principal);
+        PostEntity postEntity = getPostByIdWithAuth(postId, principal);
         Optional<ImageEntity> imageModel = imageRepository.findByPostId(postEntity.getId());
         postsRepository.delete(postEntity);
         imageModel.ifPresent(imageRepository::delete);
@@ -128,7 +133,7 @@ public class PostService {
     public PostEntity updatePost(Long postId,
                                  PostDTO postDTO,
                                  Principal principal) {
-        PostEntity postEntity = getPostById(postId, principal);
+        PostEntity postEntity = getPostByIdWithAuth(postId, principal);
 
         postEntity.setTitle(postDTO.getTitle());
         postEntity.setLocation(postDTO.getLocation());

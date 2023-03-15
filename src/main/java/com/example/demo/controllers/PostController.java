@@ -59,6 +59,15 @@ public class PostController {
                 .body(postsResponse);
     }
 
+    @GetMapping("getPost/{postId}")
+    public ResponseEntity<PostDTO> getPostById(@PathVariable("postId") Long postId) {
+        PostEntity postEntity = postService.getPostById(postId);
+
+        PostDTO postDTO = postFacade.postToPostDTO(postEntity);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(postDTO);
+    }
+
     @GetMapping("user/posts")
     public ResponseEntity<List<PostDTO>> getAllPostsForUser(Principal principal) {
         List<PostDTO> postDTOList = postService.getAllPostForUser(principal)

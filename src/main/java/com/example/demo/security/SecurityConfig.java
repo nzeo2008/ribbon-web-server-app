@@ -57,7 +57,11 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers(SecurityConstants.SIGN_UP_URLS, SecurityConstants.GET_ALL_POSTS_URL)
+                .requestMatchers(SecurityConstants.SIGN_UP_URLS,
+                        SecurityConstants.GET_ALL_POSTS_URL,
+                        SecurityConstants.GET_ALL_IMAGES_TO_POSTS_URL,
+                        SecurityConstants.GET_ALL_COMMENTS_URL,
+                        SecurityConstants.GET_POST_BY_ID)
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -68,5 +72,4 @@ public class SecurityConfig {
 
         return http.build();
     }
-
 }

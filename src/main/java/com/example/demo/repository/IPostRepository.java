@@ -14,6 +14,8 @@ import java.util.Optional;
 public interface IPostRepository extends JpaRepository<PostEntity, Long> {
     List<PostEntity> findAllByUserEntityOrderByCreatedDateDesc(UserEntity userEntity);
 
+    Optional<PostEntity> findPostEntityById(Long id);
+
     Page<PostEntity> findAllByOrderByCreatedDateDesc(Pageable pageable);
 
     Optional<PostEntity> findPostsByIdAndUserEntity(Long id,
