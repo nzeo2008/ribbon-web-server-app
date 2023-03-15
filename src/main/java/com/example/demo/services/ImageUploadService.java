@@ -90,7 +90,7 @@ public class ImageUploadService {
 
         ImageEntity imageEntity = new ImageEntity();
         imageEntity.setUserId(userEntity.getId());
-        imageEntity.setImageByte(compressBytes(file.getBytes()));
+        imageEntity.setImageBytes(compressBytes(file.getBytes()));
         imageEntity.setName(file.getOriginalFilename());
         return imageRepository.save(imageEntity);
     }
@@ -108,7 +108,7 @@ public class ImageUploadService {
 
         ImageEntity imageEntity = new ImageEntity();
         imageEntity.setUserId(userEntity.getId());
-        imageEntity.setImageByte(compressBytes(file.getBytes()));
+        imageEntity.setImageBytes(compressBytes(file.getBytes()));
         imageEntity.setName(file.getOriginalFilename());
         imageEntity.setPostId(postId);
         logger.info("Загрузка изображения к посту с id: {}", postEntity.getId());
@@ -122,7 +122,7 @@ public class ImageUploadService {
         ImageEntity imageEntity = imageRepository.findByUserId(userEntity.getId())
                 .orElse(null);
         if (!ObjectUtils.isEmpty(imageEntity)) {
-            imageEntity.setImageByte(decompressBytes(imageEntity.getImageByte()));
+            imageEntity.setImageBytes(decompressBytes(imageEntity.getImageBytes()));
         }
 
         return imageEntity;
@@ -134,7 +134,7 @@ public class ImageUploadService {
                 .orElseThrow(() -> new ImageNotFoundException("Невозможно найти изображение к посту с id: " + postId));
 
         if (!ObjectUtils.isEmpty(imageEntity)) {
-            imageEntity.setImageByte(decompressBytes(imageEntity.getImageByte()));
+            imageEntity.setImageBytes(decompressBytes(imageEntity.getImageBytes()));
         }
 
         return imageEntity;

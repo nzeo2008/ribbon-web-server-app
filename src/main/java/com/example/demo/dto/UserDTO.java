@@ -14,4 +14,6 @@ public class UserDTO {
     private String lastname;
     private String username;
     private LocalDateTime updatedDate;
+    private LocalDateTime createdDate;
+    private String email;
 }

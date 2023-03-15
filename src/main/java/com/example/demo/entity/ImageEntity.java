@@ -14,7 +14,7 @@ public class ImageEntity {
     @Column(nullable = false)
     private String name;
     @Column()
-    private byte[] imageByte;
+    private byte[] imageBytes;
     @JsonIgnore
     private Long userId;
     @JsonIgnore

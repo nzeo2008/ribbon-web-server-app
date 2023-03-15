@@ -20,6 +20,7 @@ import java.security.Principal;
 public class ImageUploadController {
     public static final Logger logger = LoggerFactory.getLogger(ImageUploadController.class);
 
+    @Autowired
     private ImageUploadService imageUploadService;
 
     @PostMapping("upload")
@@ -53,7 +54,7 @@ public class ImageUploadController {
                 .body(userImage);
     }
 
-    @GetMapping("image/{postId}")
+    @GetMapping("getImage/{postId}")
     public ResponseEntity<ImageEntity> getImageToPost(@PathVariable("postId") String postId) {
         ImageEntity postImage = imageUploadService.getImageToPost(Long.parseLong(postId));
 

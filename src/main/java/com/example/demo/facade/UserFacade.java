@@ -13,6 +13,8 @@ public class UserFacade {
         userDTO.setLastname(userEntity.getLastname());
         userDTO.setUsername(userEntity.getUsername());
         userDTO.setUpdatedDate(userEntity.getUpdatedDate());
+        userDTO.setEmail(userEntity.getEmail());
+        userDTO.setCreatedDate(userEntity.getCreatedDate());
 
         return userDTO;
     }
