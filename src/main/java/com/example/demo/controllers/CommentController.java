@@ -4,6 +4,7 @@ import com.example.demo.dto.CommentDTO;
 import com.example.demo.entity.CommentEntity;
 import com.example.demo.facade.CommentFacade;
 import com.example.demo.payload.response.MessageResponse;
+import com.example.demo.payload.response.PageableResponse;
 import com.example.demo.services.CommentService;
 import com.example.demo.validations.ResponseErrorValidation;
 import jakarta.validation.Valid;
@@ -17,8 +18,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -49,16 +48,16 @@ public class CommentController {
                 .body(createdComment);
     }
 
-    @GetMapping("all/{postId}")
-    public ResponseEntity<List<CommentDTO>> getAllCommentsToPost(@PathVariable("postId") String postId) {
 
-        List<CommentDTO> commentDTOList = commentService.getAllCommentsForPost(Long.parseLong(postId))
-                .stream()
-                .map(commentFacade::commentToCommentDTO)
-                .collect(Collectors.toList());
+    @GetMapping("all/{postId}")
+    public ResponseEntity<PageableResponse<CommentDTO>> getAllCommentsToPost(@PathVariable("postId") String postId,
+                                                                             @RequestParam(value = "pageNum", defaultValue = "0", required = false) int pageNum,
+                                                                             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
+
+        PageableResponse<CommentDTO> commentResponse = commentService.getAllCommentsForPost(Long.parseLong(postId), pageNum, pageSize);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(commentDTOList);
+                .body(commentResponse);
     }
 
     @PostMapping("update/{commentId}")

@@ -14,5 +14,6 @@ public class PostDTO {
     private String username;
     private Integer likes;
     private LocalDateTime updatedDate;
+    private LocalDateTime createdDate;
     private Set<String> usersLiked;
 }

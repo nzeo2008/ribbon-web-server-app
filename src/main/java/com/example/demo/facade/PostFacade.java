@@ -17,6 +17,7 @@ public class PostFacade {
         postDTO.setLikes(postEntity.getLikes());
         postDTO.setUsersLiked(postEntity.getLikedUsers());
         postDTO.setUpdatedDate(postEntity.getUpdatedDate());
+        postDTO.setCreatedDate(postEntity.getCreatedDate());
 
         return postDTO;
     }

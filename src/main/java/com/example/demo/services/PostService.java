@@ -5,8 +5,9 @@ import com.example.demo.entity.ImageEntity;
 import com.example.demo.entity.PostEntity;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.exceptions.PostNotFoundException;
+import com.example.demo.facade.PageableFacade;
 import com.example.demo.facade.PostFacade;
-import com.example.demo.payload.response.PageablePostResponse;
+import com.example.demo.payload.response.PageableResponse;
 import com.example.demo.repository.IImageRepository;
 import com.example.demo.repository.IPostRepository;
 import com.example.demo.repository.IUserRepository;
@@ -35,6 +36,9 @@ public class PostService {
     private PostFacade postFacade;
 
     @Autowired
+    private PageableFacade<PostDTO, PostEntity> pageableFacade;
+
+
     public PostService(IPostRepository postsRepository,
                        IUserRepository usersRepository,
                        IImageRepository imageRepository) {
@@ -56,8 +60,8 @@ public class PostService {
         return postsRepository.save(postEntity);
     }
 
-    public PageablePostResponse getAllPosts(int pageNum,
-                                            int pageSize) {
+    public PageableResponse<PostDTO> getAllPosts(int pageNum,
+                                                 int pageSize) {
         Pageable pageable = PageRequest.of(pageNum, pageSize);
         Page<PostEntity> posts = postsRepository.findAllByOrderByCreatedDateDesc(pageable);
         List<PostEntity> listOfPostEntities = posts.getContent();
@@ -66,15 +70,10 @@ public class PostService {
                 .map(postFacade::postToPostDTO)
                 .collect(Collectors.toList());
 
-        PageablePostResponse postsResponse = new PageablePostResponse();
-        postsResponse.setContent(content);
-        postsResponse.setPageNum(posts.getNumber());
-        postsResponse.setPageSize(posts.getSize());
-        postsResponse.setTotalElements(posts.getTotalElements());
-        postsResponse.setTotalPages(posts.getTotalPages());
-        postsResponse.setIsLastPage(posts.isLast());
 
-        return postsResponse;
+        PageableResponse<PostDTO> pageableResponse = pageableFacade.pageableToDTO(posts, content);
+
+        return pageableResponse;
     }
 
     public PostEntity getPostByIdWithAuth(Long postId,

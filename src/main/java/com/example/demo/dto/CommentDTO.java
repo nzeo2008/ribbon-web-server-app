@@ -8,9 +8,10 @@ import java.time.LocalDateTime;
 @Data
 public class CommentDTO {
 
-    private  Long id;
+    private Long id;
     @NotEmpty
     private String message;
     private String username;
     private LocalDateTime updatedDate;
+    private LocalDateTime createdDate;
 }

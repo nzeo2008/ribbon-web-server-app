@@ -4,7 +4,7 @@ import com.example.demo.dto.PostDTO;
 import com.example.demo.entity.PostEntity;
 import com.example.demo.facade.PostFacade;
 import com.example.demo.payload.response.MessageResponse;
-import com.example.demo.payload.response.PageablePostResponse;
+import com.example.demo.payload.response.PageableResponse;
 import com.example.demo.services.PostService;
 import com.example.demo.validations.ResponseErrorValidation;
 import jakarta.validation.Valid;
@@ -50,10 +50,10 @@ public class PostController {
     }
 
     @GetMapping("all")
-    public ResponseEntity<PageablePostResponse> getAllPosts(@RequestParam(value = "pageNum", defaultValue = "0", required = false) int pageNum,
-                                                            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
+    public ResponseEntity<PageableResponse<PostDTO>> getAllPosts(@RequestParam(value = "pageNum", defaultValue = "0", required = false) int pageNum,
+                                                                 @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
 
-        PageablePostResponse postsResponse = postService.getAllPosts(pageNum, pageSize);
+        PageableResponse<PostDTO> postsResponse = postService.getAllPosts(pageNum, pageSize);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(postsResponse);

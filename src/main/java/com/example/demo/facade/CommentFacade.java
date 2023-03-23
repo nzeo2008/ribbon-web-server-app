@@ -12,6 +12,7 @@ public class CommentFacade {
         commentDTO.setUsername(commentEntity.getUsername());
         commentDTO.setMessage(commentEntity.getMessage());
         commentDTO.setUpdatedDate(commentEntity.getUpdatedDate());
+        commentDTO.setCreatedDate(commentEntity.getCreatedDate());
 
         return commentDTO;
     }
