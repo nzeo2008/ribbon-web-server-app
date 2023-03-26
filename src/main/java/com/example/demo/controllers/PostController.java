@@ -79,7 +79,7 @@ public class PostController {
                 .body(postDTOList);
     }
 
-    @PostMapping("like/{postId}.{username}")
+    @PostMapping("like/{postId}/{username}")
     public ResponseEntity<PostDTO> likePost(@PathVariable("postId") String postId,
                                             @PathVariable("username") String username) {
         PostEntity postEntity = postService.likePost(Long.parseLong(postId), username);

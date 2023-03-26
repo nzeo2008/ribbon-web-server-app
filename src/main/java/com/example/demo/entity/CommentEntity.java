@@ -29,7 +29,6 @@ public class CommentEntity {
     @PrePersist
     protected void onCreate() {
         this.createdDate = LocalDateTime.now();
-        this.updatedDate = LocalDateTime.now();
     }
 
 }
