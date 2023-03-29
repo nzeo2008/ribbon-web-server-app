@@ -61,4 +61,5 @@ public class ImageUploadController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(postImage);
     }
+
 }

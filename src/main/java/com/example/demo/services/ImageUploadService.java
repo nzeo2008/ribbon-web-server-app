@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.zip.DataFormatException;
@@ -106,6 +107,9 @@ public class ImageUploadService {
                         .equals(postId))
                 .collect(toSinglePostCollector());
 
+        Optional<ImageEntity> imageModel = imageRepository.findByPostId(postEntity.getId());
+        imageModel.ifPresent(imageRepository::delete);
+
         ImageEntity imageEntity = new ImageEntity();
         imageEntity.setUserId(userEntity.getId());
         imageEntity.setImageBytes(compressBytes(file.getBytes()));
@@ -133,6 +137,7 @@ public class ImageUploadService {
                 .findByPostId(postId)
                 .orElseThrow(() -> new ImageNotFoundException("Невозможно найти изображение к посту с id: " + postId));
 
+
         if (!ObjectUtils.isEmpty(imageEntity)) {
             imageEntity.setImageBytes(decompressBytes(imageEntity.getImageBytes()));
         }
@@ -156,4 +161,5 @@ public class ImageUploadService {
                 }
         );
     }
+
 }
