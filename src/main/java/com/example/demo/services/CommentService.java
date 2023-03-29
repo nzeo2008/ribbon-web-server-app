@@ -71,7 +71,7 @@ public class CommentService {
         PostEntity postEntity = postsRepository.findById(postId)
                 .orElseThrow(() -> new PostNotFoundException("Пост не может быть найден"));
         Pageable pageable = PageRequest.of(pageNum, pageSize);
-        Page<CommentEntity> comments = commentRepository.findAllByPostEntity(postEntity, pageable);
+        Page<CommentEntity> comments = commentRepository.findAllByPostEntityOrderById(postEntity, pageable);
         List<CommentEntity> listOfPostComments = comments.getContent();
         List<CommentDTO> content = listOfPostComments.stream()
                 .map(commentFacade::commentToCommentDTO)
