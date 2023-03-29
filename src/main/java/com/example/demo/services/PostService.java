@@ -93,6 +93,11 @@ public class PostService {
         return postsRepository.findAllByUserEntityOrderByCreatedDateDesc(userEntity);
     }
 
+    public List<PostEntity> getLikedPosts(Principal principal) {
+        UserEntity userEntity = getUserByPrincipal(principal);
+        return postsRepository.findByLikedUsersContainingAndUserEntity(userEntity.getUsername(), userEntity);
+    }
+
     public PostEntity likePost(Long postId,
                                String username) {
         PostEntity postEntity = postsRepository.findById(postId)

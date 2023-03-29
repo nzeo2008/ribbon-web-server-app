@@ -79,6 +79,18 @@ public class PostController {
                 .body(postDTOList);
     }
 
+
+    @GetMapping("liked/posts")
+    public ResponseEntity<List<PostDTO>> getLikedPosts(Principal principal) {
+        List<PostDTO> postDTOList = postService.getLikedPosts(principal)
+                .stream()
+                .map(postFacade::postToPostDTO)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(postDTOList);
+    }
+
     @PostMapping("like/{postId}/{username}")
     public ResponseEntity<PostDTO> likePost(@PathVariable("postId") String postId,
                                             @PathVariable("username") String username) {
